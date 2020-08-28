@@ -56,7 +56,8 @@ public class PMModule extends ReactContextBaseJavaModule {
                             Message msg = Message.obtain(null, 1, 0, 0);
                             msg.replyTo = new Messenger(new PrintResponseHandler(promise));
                             Bundle bundle = new Bundle();
-                            bundle.putByteArray("html", html.getBytes());
+                            //bundle.putByteArray("html", html.getBytes());
+                            bundle.puHtml("html",html.getBytes());
                             msg.setData(bundle);
                             try {
                                Log.i("print", "before send message to print service");
