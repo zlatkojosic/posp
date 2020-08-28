@@ -56,8 +56,7 @@ public class PMModule extends ReactContextBaseJavaModule {
                             Message msg = Message.obtain(null, 1, 0, 0);
                             msg.replyTo = new Messenger(new PrintResponseHandler(promise));
                             Bundle bundle = new Bundle();
-                            bundle.putByteArray("html", html.getBytes());
-                            //bundle.puHtml("html",html.getBytes());
+                            bundle.putString("htmlData",html);
                             msg.setData(bundle);
                             try {
                                Log.i("print", "before send message to print service");
@@ -81,4 +80,44 @@ public class PMModule extends ReactContextBaseJavaModule {
                 promise.reject(new Exception("Could not bind to a printer service"));
             }
         }
+
+
+
+                @ReactMethod
+                public void printPdf(byte[] pdfData,Promise promise){
+                System.out.println("printPdf called");
+                    Log.i("print", "printPdf called");
+                    Intent intent = new Intent();
+                    intent.setComponent(new ComponentName("de.ccv.payment.printservice", "de.ccv.payment.printservice.DirectPrintService"));
+                    final ServiceConnection[] serviceConnectionArray = new ServiceConnection[1];
+                    ServiceConnection connection = new ServiceConnection() {
+                                public void onServiceConnected(ComponentName className, IBinder service) {
+                                    Messenger messenger = new Messenger(service);
+                                    Message msg = Message.obtain(null, 1, 0, 0);
+                                    msg.replyTo = new Messenger(new PrintResponseHandler(promise));
+                                    Bundle bundle = new Bundle();
+                                    bundle.putByteArray("pdfData",pdfData);
+                                    msg.setData(bundle);
+                                    try {
+                                       Log.i("print", "before send message to print service");
+                                        messenger.send(msg);
+                                        Log.i("print", "after send message to print service");
+                                    } catch(RemoteException exc) {
+                                        promise.reject(exc);
+                                        Log.e("print", "Remote exception", exc);
+                                    }
+                                }
+
+                                public void onServiceDisconnected(ComponentName className) {
+                                    Log.i("print", "disconnected from the print service");
+                                }
+                            };
+                    serviceConnectionArray[0] = connection;
+
+                    if(!getReactApplicationContext().bindService(intent, connection, getReactApplicationContext().BIND_AUTO_CREATE)) {
+                        Log.e("print", "Could not find printer service");
+                        getReactApplicationContext().unbindService(connection);
+                        promise.reject(new Exception("Could not bind to a printer service"));
+                    }
+                }
 }
