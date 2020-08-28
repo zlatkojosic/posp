@@ -18,8 +18,24 @@ const View = styled.View`
     font-size: 24px;        
 `
 
-const Button = styled.Button`  
+const StyledButton = styled.TouchableOpacity`
+    background-color: #CC0000;   
+    padding: 1px 15px 5px 15px;
+    
+    border-radius: 15px;   
 `
+
+const ButtonTitle = styled.Text`
+    color: white;    
+    font-size: 28px;
+`
+
+function Button({title,onPress}){
+
+    return <StyledButton onPress={onPress}>
+        <ButtonTitle>{title}</ButtonTitle>
+    </StyledButton>
+}
 
 function App() {
 
