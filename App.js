@@ -124,8 +124,8 @@ function App() {
     }
 
     return <View>
-        <Button title={"Click me"} color={"#CC0000"} onPress={onPress}/>
-        <Button title={"Print as Coll"} color={"#0000CC"} onPress={onPrintColl}/>
+        <Button title={"Print PDF"} color={"#CC0000"} onPress={onPress}/>
+        <Button title={"Print Collection"} color={"#0000CC"} onPress={onPrintColl}/>
     </View>
 }
 
