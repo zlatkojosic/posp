@@ -18,14 +18,13 @@ var RNFS = require('react-native-fs');
 const View = styled.View`
     flex:1;
     align-items: center;
-    justify-content: center;    
+    justify-content: space-around;    
     font-size: 24px;        
 `
 
 const StyledButton = styled.TouchableOpacity`
-    background-color: #CC0000;   
-    padding: 1px 15px 5px 15px;
-    
+    background-color: ${props => props.color};   
+    padding: 1px 15px 5px 15px;    
     border-radius: 15px;   
 `
 
@@ -36,9 +35,9 @@ const ButtonTitle = styled.Text`
 
 const source = {uri: 'https://pos-system-templates.s3.amazonaws.com/test10.pdf', cache: true};
 
-function Button({title, onPress}) {
+function Button({title, color, onPress}) {
 
-    return <StyledButton onPress={onPress}>
+    return <StyledButton color={color} onPress={onPress}>
         <ButtonTitle>{title}</ButtonTitle>
     </StyledButton>
 }
@@ -69,6 +68,7 @@ function App() {
         let options = {
             html: '<h1>PDF TEST</h1>',
             fileName: 'test',
+            fonts: ['/fonts/TimesNewRoman.ttf', '/fonts/Verdana.ttf']
         };
 
         let file = await RNHTMLtoPDF.convert(options)
@@ -112,8 +112,20 @@ function App() {
             })
     }
 
+    function onPrintColl() {
+        let coll = ["Hello World"]
+        Printer.printColl(coll)
+            .then(response => {
+                console.log("response", response)
+            })
+            .catch(error => {
+                console.error(error)
+            })
+    }
+
     return <View>
-        <Button title={"Click me"} onPress={onPress}/>
+        <Button title={"Click me"} color={"#CC0000"} onPress={onPress}/>
+        <Button title={"Print as Coll"} color={"#0000CC"} onPress={onPrintColl}/>
     </View>
 }
 

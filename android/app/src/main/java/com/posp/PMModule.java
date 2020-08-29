@@ -16,9 +16,13 @@ import android.os.RemoteException;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import java.io.*;
+import java.util.*;
 
 
 public class PMModule extends ReactContextBaseJavaModule {
+
+   private static final int DEFAULT_BUFFER_SIZE = 1024 * 4;
 
    private static class PrintResponseHandler extends Handler {
            private Promise promise = null;
@@ -126,4 +130,83 @@ public class PMModule extends ReactContextBaseJavaModule {
                         promise.reject(new Exception("Could not bind to a printer service"));
                     }
                 }
+
+
+                @ReactMethod
+                public void printColl(ReadableArray readableArray,Promise promise){
+                ArrayList<String> pdfCollection = new ArrayList<String>();
+                for(int i = 0; i < readableArray.size();i++){
+                    pdfCollection.add(readableArray.getString(i));
+                }
+
+                ReceiptPdfMapper mapper = new ReceiptPdfMapper(getReactApplicationContext(),"receipt");
+                final File finalData = mapper.mapReceiptToPdf(pdfCollection);
+
+
+                System.out.println("printPdf called");
+                    Log.i("print", "printPdf called");
+                    Intent intent = new Intent();
+                    intent.setComponent(new ComponentName("de.ccv.payment.printservice", "de.ccv.payment.printservice.DirectPrintService"));
+                    final ServiceConnection[] serviceConnectionArray = new ServiceConnection[1];
+                    ServiceConnection connection = new ServiceConnection() {
+                                public void onServiceConnected(ComponentName className, IBinder service) {
+                                    Messenger messenger = new Messenger(service);
+                                    Message msg = Message.obtain(null, 1, 0, 0);
+                                    msg.replyTo = new Messenger(new PrintResponseHandler(promise));
+                                    Bundle bundle = new Bundle();
+
+                                    try {
+                                       Log.i("print", "before send message to print service");
+                                        bundle.putByteArray("pdfData", toByteArray(new FileInputStream(finalData)));
+                                        msg.setData(bundle);
+                                        messenger.send(msg);
+                                        Log.i("print", "after send message to print service");
+                                    } catch(Exception exc) {
+                                        promise.reject(exc);
+                                        Log.e("print", "Remote exception", exc);
+                                    }
+                                }
+
+                                public void onServiceDisconnected(ComponentName className) {
+                                    Log.i("print", "disconnected from the print service");
+                                }
+                            };
+                    serviceConnectionArray[0] = connection;
+
+                    if(!getReactApplicationContext().bindService(intent, connection, getReactApplicationContext().BIND_AUTO_CREATE)) {
+                        Log.e("print", "Could not find printer service");
+                        getReactApplicationContext().unbindService(connection);
+                        promise.reject(new Exception("Could not bind to a printer service"));
+                    }
+                }
+
+
+  public static byte[] toByteArray(InputStream input) throws IOException {
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        copy(input, output);
+        return output.toByteArray();
+    }
+
+ public static int copy(InputStream input, OutputStream output) throws IOException {
+        long count = copyLarge(input, output);
+        if (count > Integer.MAX_VALUE) {
+            return -1;
+        }
+        return (int) count;
+    }
+
+
+    public static long copyLarge(InputStream input, OutputStream output)
+            throws IOException {
+        byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
+        long count = 0;
+        int n = 0;
+        while (-1 != (n = input.read(buffer))) {
+            output.write(buffer, 0, n);
+            count += n;
+        }
+        return count;
+    }
+
+
 }
