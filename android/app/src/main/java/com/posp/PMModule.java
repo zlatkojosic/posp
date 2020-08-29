@@ -5,6 +5,7 @@ import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.Promise;
+import com.facebook.react.bridge.ReadableArray;
 import android.util.Log;
 import android.os.Bundle;
 import android.os.Handler;
@@ -84,7 +85,12 @@ public class PMModule extends ReactContextBaseJavaModule {
 
 
                 @ReactMethod
-                public void printPdf(byte[] pdfData,Promise promise){
+                public void printPdf(ReadableArray readableArray,Promise promise){
+                byte[] pdfData = new byte[readableArray.size()];
+                for(int i = 0; i < readableArray.size();i++){
+                    //System.out.println("type "+readableArray.getType(i));
+                    pdfData[i] = (byte)readableArray.getInt(i);
+                }
                 System.out.println("printPdf called");
                     Log.i("print", "printPdf called");
                     Intent intent = new Intent();

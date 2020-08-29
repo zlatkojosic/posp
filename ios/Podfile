@@ -8,6 +8,10 @@ target 'posp' do
 
   use_react_native!(:path => config["reactNativePath"])
 
+  pod 'react-native-html-to-pdf', :path => '../node_modules/react-native-html-to-pdf'
+
+  pod 'RNFS', :path => '../node_modules/react-native-fs'
+
   target 'pospTests' do
     inherit! :complete
     # Pods for testing
