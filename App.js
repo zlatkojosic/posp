@@ -66,7 +66,7 @@ function App() {
 
     async function createPdf() {
         let options = {
-            html: `<head><style>p{font-size:15; height: 300px}</style></head><p>Hello World--------</p>`,
+            html: `<head><style>p{font-size:15;height:12px font-weight:500}</style></head><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p>`,
             fileName: 'test',
             height: 1700,
             width: 300,
@@ -115,7 +115,7 @@ function App() {
     }
 
     function onPrintColl() {
-        let coll = ["Hello World 20€"]
+        let coll = ["Hello World 20€sad"]
         Printer.printColl(coll)
             .then(response => {
                 console.log("response", response)
