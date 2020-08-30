@@ -68,7 +68,8 @@ function App() {
         let options = {
             html: `<head><style>p{font-size:15;height:12px font-weight:500}</style></head><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p>`,
             fileName: 'test',
-            width: 161,
+            // This is the right dimension for the font-size 15
+            width: 300,
             height: 1700,
             fonts: ['/fonts/TimesNewRoman.ttf', '/fonts/Verdana.ttf']
         };
@@ -90,7 +91,6 @@ function App() {
 
         return result
     }
-
 
     function onPress() {
         console.log("button pressed")
