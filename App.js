@@ -68,7 +68,8 @@ function App() {
         let options = {
             html: '<h1>PDF TEST</h1>',
             fileName: 'test',
-            fonts: ['/fonts/TimesNewRoman.ttf', '/fonts/Verdana.ttf']
+            fonts: ['/fonts/TimesNewRoman.ttf', '/fonts/Verdana.ttf'],
+            width: 161
         };
 
         let file = await RNHTMLtoPDF.convert(options)
