@@ -7,11 +7,11 @@
  */
 
 import React from 'react'
-import {PermissionsAndroid} from "react-native";
+import { PermissionsAndroid } from "react-native";
 import styled from "styled-components/native"
 import Printer from "./src/printer/printer"
 import RNHTMLtoPDF from 'react-native-html-to-pdf'
-import {decode as atob} from "base-64"
+import { decode as atob } from "base-64"
 
 var RNFS = require('react-native-fs');
 
@@ -33,9 +33,9 @@ const ButtonTitle = styled.Text`
     font-size: 28px;
 `
 
-const source = {uri: 'https://pos-system-templates.s3.amazonaws.com/test10.pdf', cache: true};
+const source = { uri: 'https://pos-system-templates.s3.amazonaws.com/test10.pdf', cache: true };
 
-function Button({title, color, onPress}) {
+function Button({ title, color, onPress }) {
 
     return <StyledButton color={color} onPress={onPress}>
         <ButtonTitle>{title}</ButtonTitle>
@@ -47,15 +47,15 @@ const getPDF = async () => {
     console.log("calling async")
     let response = await fetch(
         `https://pos-system-templates.s3.amazonaws.com/test10.pdf`, {
-            method: 'GET',
+        method: 'GET',
 
-            responseType: 'base64'
-        });
+        responseType: 'base64'
+    });
 
     //Create a Blob from the PDF Stream
     const file = new Blob(
         [response.data],
-        {type: 'application/pdf'});
+        { type: 'application/pdf' });
     console.log("getting file")
     console.log(file)
 
@@ -66,10 +66,12 @@ function App() {
 
     async function createPdf() {
         let options = {
-            html: '<h1>PDF TEST</h1>',
+            html: `<head><style>p{font-size:15;height:12px font-weight:500}</style></head><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p><p>Granatapfel Eistee 15€ Granatapfel Eisteesds</p>`,
             fileName: 'test',
-            fonts: ['/fonts/TimesNewRoman.ttf', '/fonts/Verdana.ttf'],
-            width: 161
+            width: 161,
+            height: 1700,
+
+            fonts: ['/fonts/TimesNewRoman.ttf', '/fonts/Verdana.ttf']
         };
 
         let file = await RNHTMLtoPDF.convert(options)
@@ -114,7 +116,7 @@ function App() {
     }
 
     function onPrintColl() {
-        let coll = ["Hello World"]
+        let coll = ["Hello World 20€sad"]
         Printer.printColl(coll)
             .then(response => {
                 console.log("response", response)
@@ -125,8 +127,8 @@ function App() {
     }
 
     return <View>
-        <Button title={"Print PDF"} color={"#CC0000"} onPress={onPress}/>
-        <Button title={"Print Collection"} color={"#0000CC"} onPress={onPrintColl}/>
+        <Button title={"Print PDF"} color={"#CC0000"} onPress={onPress} />
+        <Button title={"Print Collection"} color={"#0000CC"} onPress={onPrintColl} />
     </View>
 }
 
