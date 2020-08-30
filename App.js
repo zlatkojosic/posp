@@ -70,7 +70,6 @@ function App() {
             fileName: 'test',
             width: 161,
             height: 1700,
-
             fonts: ['/fonts/TimesNewRoman.ttf', '/fonts/Verdana.ttf']
         };
 
