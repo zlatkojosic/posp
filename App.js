@@ -21,13 +21,15 @@ const Drawer = createDrawerNavigator();
 
 function App() {
 
-    function homeComponent(navigation){
-        return  <SnContainer navigation={navigation} name={"CardHome"} title={"Card reader"} component={PaymentHome}/>
+
+    function homeComponent(navigation) {
+        return <SnContainer navigation={navigation} name={"PaymentHome"} title={"Payment"} component={PaymentHome}/>
     }
 
-    function printComponent(navigation){
-        return  <SnContainer navigation={navigation} name={"PrintingHome"} title={"Printing"} component={PrintingHome}/>
+    function printComponent(navigation) {
+        return <SnContainer navigation={navigation} name={"PrintingHome"} title={"Printing"} component={PrintingHome}/>
     }
+
 
     return <NavigationContainer>
         <Drawer.Navigator initialRouteName={"home"}>
