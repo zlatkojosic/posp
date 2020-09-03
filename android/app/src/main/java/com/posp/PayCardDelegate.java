@@ -22,7 +22,7 @@ import java.io.*;
 import java.util.*;
 import eu.ccvlab.mapi.opi.de.payment.PaymentService;
 import eu.ccvlab.mapi.opi.de.payment.PaymentDelegate;
-import eu.ccvlab.mapi.opi.de.payment.CardDelegate;
+import eu.ccvlab.mapi.opi.de.payment.CardReadDelegate;
 import eu.ccvlab.mapi.opi.de.payment.PaymentDelegate.SignatureAsked;
 import eu.ccvlab.mapi.core.payment.Payment;
 import eu.ccvlab.mapi.core.payment.Money;
@@ -30,45 +30,42 @@ import eu.ccvlab.mapi.core.terminal.ExternalTerminal;
 import eu.ccvlab.mapi.core.payment.*;
 import eu.ccvlab.mapi.core.*;
 import eu.ccvlab.mapi.opi.de.payment.machine.*;
+import eu.ccvlab.mapi.core.requests.ResultState;
+import eu.ccvlab.mapi.opi.de.payment.CardReadResult;
 
 
-public class PayCardDelegate extends CardDelegate {
+public class PayCardDelegate implements CardReadDelegate {
 
-    private Callback onSuccess;
-    private Callback onError;
-    private Callback onFailure;
-    private Callback onShowTerminalOutput;
+    private Promise promise;
 
 
-    public PayCardDelegate(Callback onSuccess, Callback onError, Callback onFailure, onShowTerminalOutput) {
-        this.onSuccess = onSuccess;
-        this.onError = onError
-        this.onFailure = onFailure;
-        this.onShowTerminalOutput = onShowTerminalOutput;
+    public PayCardDelegate(Promise promise) {
+        this.promise = promise;
     }
 
 
     @Override
     public void onFailure(ResultState paramResultState) {
-        onFailure.invoke(paramResultState.toString);
+        promise.reject(paramResultState.toString());
     }
 
 
 
     @Override
     public void onError(MAPIError paramMAPIError) {
-        onError.invoke(DelegateUtils.convertMAPIErrorToMap(paramMAPIError));
-    }
+        //promise.reject(DelegateUtils.convertMAPIErrorToMap(paramMAPIError));
+        promise.reject(paramMAPIError.toString());
+     }
 
     @Override
     public void onSuccess(CardReadResult card) {
-        onSuccess.invoke(DelegateUtils.convertCardReadToMap(card));
+        promise.resolve(DelegateUtils.convertCardReadToMap(card));
     }
 
     @Override
     public void showTerminalOutput(List < String > paramList) {
         String joined = StringUtil.join(paramList, "\n");
-        onShowTerminalOutput.invoke(joined);
+        //Send it as event
     }
 
 

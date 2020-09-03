@@ -22,39 +22,22 @@ import java.io.*;
 import java.util.*;
 import eu.ccvlab.mapi.opi.de.payment.PaymentService;
 import eu.ccvlab.mapi.opi.de.payment.PaymentDelegate;
-import eu.ccvlab.mapi.opi.de.payment.CardDelegate;
 import eu.ccvlab.mapi.opi.de.payment.PaymentDelegate.SignatureAsked;
 import eu.ccvlab.mapi.core.payment.Payment;
 import eu.ccvlab.mapi.core.payment.Money;
 import eu.ccvlab.mapi.core.terminal.ExternalTerminal;
 import eu.ccvlab.mapi.core.payment.*;
-import eu.ccvlab.mapi.core.*;
+import eu.ccvlab.mapi.core.MAPIError;
 import eu.ccvlab.mapi.opi.de.payment.machine.*;
 
 
-public class PayPaymentDelegate extends PaymentDelegate {
+public class PayPaymentDelegate implements PaymentDelegate {
 
-    private Callback onPaymentSuccess;
-    private Callback onPaymentError;
-    private Callback onError;
-    private Callback onShowTerminalOutput;
-    private Callback onPrintMerchantReceiptAndSignature;
-    private Callback onPrintCustomerReceiptAndSignature;
-    private Callback onDrawCustomerSignature;
-    private Callback onAskCustomerSignature;
+    private Promise promise;
 
 
-
-    public PayPaymentDelegate(Callback onPaymentSuccess, Callback onPaymentError, Callback onError, onShowTerminalOutput, onPrintMerchantReceiptAndSignature,
-        onPrintCustomerReceiptAndSignature, onDrawCustomerSignature) {
-        this.onPaymentSuccess = onPaymentSuccess;
-        this.onPaymentError = onPaymentError
-        this.onError = onError;
-        this.onShowTerminalOutput = onShowTerminalOutput;
-        this.onPrintMerchantReceiptAndSignature = onPrintMerchantReceiptAndSignature;
-        this.onPrintCustomerReceiptAndSignature = onPrintCustomerReceiptAndSignature;
-        this.onDrawCustomerSignature = onDrawCustomerSignature;
-        this.onAskCustomerSignature = onAskCustomerSignature;
+    public PayPaymentDelegate(Promise promise) {
+        this.promise = promise;
 
     }
 
@@ -67,23 +50,23 @@ public class PayPaymentDelegate extends PaymentDelegate {
 
     @Override
     public void onPaymentSuccess(PaymentResult paymentResult) {
-        onPaymentSuccess.invoke(DelegateUtils.convertPaymentResultToMap(paymentResult));
+        promise.resolve(paymentResult.toString());
     }
 
     @Override
     public void onPaymentError(PaymentResult paymentResult) {
-        onPaymentError.invoke(DelegateUtils.convertPaymentResultToMap(paymentResult));
+        promise.reject(paymentResult.toString());
     }
     @Override
     public void onError(MAPIError error) {
-        onError.invoke(DelegateUtils.convertMAPIErrorToMap(error)
+        promise.reject(error.toString());
 
-        }
+    }
 
         @Override
-        public void showTerminalOutput(List < String > output) {
-            String joined = StringUtil.join(paramList, "\n");
-            onShowTerminalOutput.invoke(joined);
+        public void showTerminalOutput(List<String> output) {
+            String joined = StringUtil.join(output, "\n");
+
         }
         @Override
         public void printMerchantReceiptAndSignature(PaymentReceipt receipt) {

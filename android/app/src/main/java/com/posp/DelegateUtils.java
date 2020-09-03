@@ -5,7 +5,9 @@ import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.Promise;
+import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReadableArray;
+import com.facebook.react.bridge.WritableMap;
 import android.util.Log;
 import android.os.Bundle;
 import android.os.Handler;
@@ -27,37 +29,38 @@ import eu.ccvlab.mapi.core.terminal.ExternalTerminal;
 import eu.ccvlab.mapi.core.payment.*;
 import eu.ccvlab.mapi.core.*;
 import eu.ccvlab.mapi.opi.de.payment.machine.*;
+import eu.ccvlab.mapi.opi.de.payment.*;
 
 
 public class DelegateUtils {
 
     public static WritableMap convertCardReadToMap(CardReadResult card) {
-        WritableMap map = new WritableMap();
+        WritableMap map = new Arguments().createMap();
         map.putString("cardCircuit", card.cardCircuit());
         map.putString("expiryDate", card.expiryDate());
         map.putString("track1", card.track1());
         map.putString("track2", card.track2());
         map.putString("track3", card.track3());
-        return map
+        return map;
     }
 
 
     public static WritableMap convertMAPIErrorToMap(MAPIError paramMAPIError) {
-        WritableMap map = new WritableMap();
-        map.putInt("code", paramMAPIError.code);
-        map.putString("description", paramMAPIError.description);
-        return map
+        WritableMap map = new Arguments().createMap();
+        map.putInt("code", paramMAPIError.code());
+        map.putString("description", paramMAPIError.description());
+        return map;
     }
 
     public static WritableMap convertPaymentResultToMap(PaymentResult paymentResult) {
-        WritableMap map = new WritableMap();
+        WritableMap map = new Arguments().createMap();
         map.putString("paymentSTAN", paymentResult.paymentSTAN());
         map.putString("terminalId", paymentResult.terminalId());
         //create money map
         if (paymentResult.amount() != null) {
-            WritableMap moneyMap = new WritableMap();
-            moneyMap.putDouble("value", paymentResult.amount().value().toDouble());
-            moneyMap.String("currency", paymentResult.amount().currency().toString());
+            WritableMap moneyMap = new Arguments().createMap();
+            moneyMap.putDouble("value", paymentResult.amount().value().doubleValue());
+            moneyMap.putString("currency", paymentResult.amount().currency().toString());
             map.putMap("money", moneyMap);
         }
         map.putString("timestamp", paymentResult.timestamp());
@@ -65,8 +68,8 @@ public class DelegateUtils {
         map.putString("requestId", paymentResult.requestId());
         //crate card map
         if (paymentResult.card() != null) {
-            WritableMap cardMap = new WritableMap();
-            cardMap.putString("card", paymentResult.card().card());
+            WritableMap cardMap = new Arguments().createMap();
+            cardMap.putString("card", paymentResult.card().cardCircuit());
             cardMap.putString("pan", paymentResult.card().pan());
             cardMap.putString("panHash", paymentResult.card().panHash());
             cardMap.putString("expiryDate", paymentResult.card().expiryDate());

@@ -1,5 +1,7 @@
 package com.posp;
 
+import java.util.*;
+
 public class StringUtil{
 
  public static String join( List<String> list , String replacement  ) {
