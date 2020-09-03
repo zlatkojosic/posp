@@ -212,6 +212,12 @@ dependencies {
     }
 
     compile project(':react-native-html-to-pdf')
+
+    compile(group: 'org.simpleframework', name: 'simple-xml', version:'2.7.1') {
+            exclude(module: 'stax')
+            exclude(module: 'stax-api')
+            exclude(module: 'xpp3')
+    }
 }
 
 // Run this once to be able to run the application with BUCK

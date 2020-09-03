@@ -27,7 +27,7 @@ import eu.ccvlab.mapi.core.terminal.ExternalTerminal;
 import eu.ccvlab.mapi.core.payment.*;
 import eu.ccvlab.mapi.core.*;
 import eu.ccvlab.mapi.opi.de.payment.machine.*;
-
+import org.simpleframework.xml.convert.Registry;
 
 public class PayModule extends ReactContextBaseJavaModule {
 
