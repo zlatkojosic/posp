@@ -27,7 +27,7 @@ import eu.ccvlab.mapi.core.terminal.ExternalTerminal;
 import eu.ccvlab.mapi.core.payment.*;
 import eu.ccvlab.mapi.core.*;
 import eu.ccvlab.mapi.opi.de.payment.machine.*;
-import org.simpleframework.xml.convert.Registry;
+
 
 public class PayModule extends ReactContextBaseJavaModule {
 
@@ -50,13 +50,19 @@ public class PayModule extends ReactContextBaseJavaModule {
                                 .type(Payment.Type.SALE)
                                 .amount(Money.EUR(amount))
                                 .build();
+                            Log.i("payment", "payment object created");
                             ExternalTerminal terminal = ExternalTerminal
                                 .newBuilder()
                                 .ipAddress("192.0.0.2")
                                 .port(20002)
                                 .build();
+                             Log.i("payment", "ExternalTerminal object created");
                             PaymentService paymentService = new PaymentService();
-                            paymentService.payment(terminal,payment,new DefaultPaymentDelegate());
+                             Log.i("payment", "PaymentService object created");
+                             Log.i("payment", "calling PaymentService");
+                            paymentService.paymentAfterCardRead(terminal,payment,new DefaultPaymentDelegate());
+                            Log.i("payment", "after calling PaymentService");
+                            promise.resolve(true);
             }catch(Exception e){
                 promise.reject(e);
                 Log.e("payment","error",e);
